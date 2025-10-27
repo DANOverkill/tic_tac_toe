@@ -22,6 +22,6 @@ const GameControl = (() => {
 
     return {playTurn};
 
-})();
+});
 
 export default GameControl;
