@@ -1,5 +1,5 @@
-import GameBoard from "./GameBoard";
-import Player from "./Player";
+import GameBoard from "./GameBoard.js";
+import Player from "./Player.js";
 
 const GameControl = (() => {
     const playerOneName = prompt('Please enter Name for Player 1:');
