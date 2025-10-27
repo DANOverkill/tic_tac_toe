@@ -4,7 +4,7 @@ import Player from  './Player.js';
 import GameControl from './GameControl.js';
 
 // exposing GameBoard temporarily during dev and testing
-// window.GameBoard = GameBoard;
+window.GameBoard = GameBoard;
 // window.Player = Player;
 
 window.startGame = () => {
