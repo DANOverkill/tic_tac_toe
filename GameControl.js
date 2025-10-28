@@ -2,8 +2,8 @@ import GameBoard from "./GameBoard.js";
 import Player from "./Player.js";
 
 const GameControl = (() => {
-    const playerOneName = prompt('Please enter Name for Player 1:');
-    const playerTwoName = prompt('Please enter Name for Player 2:');
+    // const playerOneName = prompt('Please enter Name for Player 1:');
+    // const playerTwoName = prompt('Please enter Name for Player 2:');
 
     const playerOne = Player(playerOneName || 'Player 1', 'X');
     const playerTwo = Player(playerTwoName || 'Player 2', 'O');

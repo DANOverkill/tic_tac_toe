@@ -7,24 +7,30 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="style.css">
- <!-- links to logic and scripts-->
+ <!-- link to main.js-->
   <script type="module" src="main.js" defer></script>
 </head>
 <body>
-  <header>
-    <h1>Project Title</h1>
-    <nav>
-      <!-- nav links -->
-    </nav>
-  </header>
+  <section id="setupScreen">
+    <h2>Game Setup</h2>
+    <input id="player1Name" placeholder="Player 1 name" />
+        <label>
+      <input type="checkbox" id="player1IsAI" />
+      Player 1 is computer
+    </label>
+    <input id="player2Name" placeholder="Player 2 name" />
+    <label>
+      <input type="checkbox" id="player2IsAI" />
+      Player 2 is computer
+    </label>
+    <button id="startGameBtn" disabled>Start Game</button>
+  </section>
 
-  <main>
-    <section id="app">
-      <div id="board">
-        
-      </div>
-    </section>
-  </main>
+  <section id="gameScreen" class="hidden">
+    <h2 id="gameStatus">Let's play!</h2>
+    <div id="board"></div>
+    <button id="restartBtn">Restart</button>
+  </section>
 
   <footer>
     <small>©DANOverkill - 2025</small>
