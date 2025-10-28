@@ -67,6 +67,8 @@ const GameControl = (() => {
 
         if (checkWin(getPlayerIndexes(currentPlayer.getMark()))) {
             console.log(`${currentPlayer.getName()} wins!`)
+            GameBoard.resetBoard();
+            return;
         } else {
             switchTurn();
             console.log(GameBoard.getBoard()); //added console log for testing while we have no UI
