@@ -26,7 +26,18 @@ const GameControl = (() => {
         [2, 4, 6]  // Diagonal (top-right to bottom-left)
     ];
     
+    const getPlayerIndexes = (mark) => {
+        const board = GameBoard.getBoard();
+        const indexes = [];
 
+        for (let i = 0; i < board.length; i++) {
+            const cell = board[i];
+            if (cell === mark) {
+                indexes.push(i);
+            }
+        }
+        return indexes;
+    };
     
     //round logic
     const playTurn = (index) => {
@@ -35,7 +46,7 @@ const GameControl = (() => {
         console.log(GameBoard.getBoard()); //added console log for testing while we have no UI
     };
 
-    return {playTurn};
+    return {playTurn, getPlayerIndexes, currentPlayer};
 
 });
 
