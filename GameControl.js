@@ -70,6 +70,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
             GameBoard.resetBoard();
             return;
         } else {
+            console.log(`${currentPlayer.getName()} played turn`); // visualizing player name for testing
             switchTurn();
             console.log(GameBoard.getBoard()); //added console log for testing while we have no UI
         }
