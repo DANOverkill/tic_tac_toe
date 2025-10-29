@@ -45,6 +45,7 @@ restartBtn.addEventListener('click', () => {
    player2Input.value = '';
    player1Input.placeholder = 'Player 1 name';
    player2Input.placeholder = 'Player 2 name';
+   startBtn.disabled = true;
    // document.querySelector('#player1AI').checked = false;
    // document.querySelector('#player2AI').checked = false;
 });
