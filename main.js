@@ -4,8 +4,8 @@ import Player from  './Player.js';
 import GameControl from './GameControl.js';
 
 // exposing GameBoard temporarily during dev and testing
-window.GameBoard = GameBoard;
-window.Player = Player;
+// window.GameBoard = GameBoard;
+// window.Player = Player;
 
 // DOM cache
 const startBtn = document.querySelector('#startGameBtn');
@@ -27,13 +27,6 @@ function validateInputs() {
 player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
 
-const startGame = (playerOneName, playerTwoName) => {
-   let game = GameControl(playerOneName, playerTwoName);
-   console.log('game started');
-   window.game = game;
-   return game;
-};
-
 function createBoardUI() {
   board.innerHTML = '';
 
@@ -49,7 +42,7 @@ startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
   createBoardUI();
-  let game = startGame(player1Input.value, player2Input.value);
+  let game = GameControl(player1Input.value, player2Input.value);
 
   board.addEventListener('click', (e) => {
     if (e.target.classList.contains('cell')) {
