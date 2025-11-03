@@ -19,7 +19,6 @@ const board = document.querySelector('#board');
 // const player1IsAI = document.querySelector('#player1IsAI');
 // const player2IsAI = document.querySelector('#player2IsAI');
 
-const GameControl = GameControl();  // ***** potentially add a constant to hold GameControl()
 
 function validateInputs() {
   startBtn.disabled = !(player1Input.value && player2Input.value);
@@ -39,14 +38,12 @@ function createBoardUI() {
   }
 };
 
-//try to get startBtn event lister to only call GameControl() but to make it global in main.js
-startBtn.addEventListener('click', () => {    
-  setupScreen.classList.add('hidden');                   
+startBtn.addEventListener('click', () => {
+  setupScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
   createBoardUI();
   let game = GameControl(player1Input.value, player2Input.value);
 
-  //this will allow the board listener to reach GameControl on the global scope. Same for resetBtn
   board.addEventListener('click', (e) => {
     if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
@@ -59,8 +56,7 @@ startBtn.addEventListener('click', () => {
 });
 
 restartBtn.addEventListener('click', () => {
-  GameBoard.resetBoard();
-  // GameControl.resetPlayers();  //atempting to add a rest player to reset button
+  GameBoard.resetBoard()
   player1Input.value = '';
   player2Input.value = '';
   player1Input.placeholder = 'Player 1 name';
