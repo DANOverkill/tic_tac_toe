@@ -15,10 +15,22 @@ const setupScreen = document.querySelector('#setupScreen');
 const gameScreen = document.querySelector('#gameScreen');
 const restartBtn = document.querySelector('#restartBtn');
 const board = document.querySelector('#board');
+let game = GameControl('', '');
 // Ai not current implemented
 // const player1IsAI = document.querySelector('#player1IsAI');
 // const player2IsAI = document.querySelector('#player2IsAI');
 
+
+/*
+The changes I made to the logic are as follows:
+-make GameControl a global 'let' var
+-the startBtn listener creates a new GameControl overwriting the global var
+-moved the click listener for the board out of the startBtn listener so it doesn't add a new listener
+    whenever the start button is clicked
+
+You could also keep the addEventListener in the startBtn listener function, but you must use removeEventListener
+or you'll get multiple listeners and multiple game logics running at once.
+*/
 
 function validateInputs() {
   startBtn.disabled = !(player1Input.value && player2Input.value);
@@ -42,18 +54,19 @@ startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
   createBoardUI();
-  let game = GameControl(player1Input.value, player2Input.value);
+  game = GameControl(player1Input.value, player2Input.value);
 
-  board.addEventListener('click', (e) => {
-    if (e.target.classList.contains('cell')) {
+  return game;
+});
+
+board.addEventListener('click', (e) => {
+if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
       game.writeMArk(e);
       game.playTurn(index);
     }
-  });
-  return game;
-});
+})
 
 restartBtn.addEventListener('click', () => {
   GameBoard.resetBoard()
