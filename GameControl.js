@@ -8,6 +8,14 @@ const GameControl = ((playerOneName, playerTwoName) => {
     const playerOne = Player(playerOneName || 'Player 1', 'X');
     const playerTwo = Player(playerTwoName || 'Player 2', 'O');
 
+    const resetPlayers = () => {
+        if (playerOne && playerTwo) {
+            playerOne = '';
+            playerTwo = '';
+        }
+        return {playerOne, playerTwo}
+    };
+
     let currentPlayer = playerOne; 
 
     const switchTurn = () => {
@@ -82,7 +90,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
         e.target.classList.add('playerMark')
     };
 
-    return {playTurn, writeMArk, getPlayerIndexes, currentPlayer};
+    return {playTurn, writeMArk, resetPlayers, getPlayerIndexes, currentPlayer};
 
 });
 
