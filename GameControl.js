@@ -4,6 +4,7 @@ import Player from "./Player.js";
 const GameControl = ((playerOneName, playerTwoName) => {
     // const playerOneName = prompt('Please enter Name for Player 1:');
     // const playerTwoName = prompt('Please enter Name for Player 2:');
+    const GameControlID = Math.random()*100;
 
     const playerOne = Player(playerOneName || 'Player 1', 'X');
     const playerTwo = Player(playerTwoName || 'Player 2', 'O');
@@ -54,6 +55,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
                 }
             }
             if (hasAllIndexes === true) {
+                currentPlayer.addPoint;
                 return true;
             } 
             
@@ -66,11 +68,14 @@ const GameControl = ((playerOneName, playerTwoName) => {
         GameBoard.setMark(index, currentPlayer.getMark());
 
         if (checkWin(getPlayerIndexes(currentPlayer.getMark()))) {
-            console.log(`${currentPlayer.getName()} wins!`)
+            console.log(`${currentPlayer.getName()} wins!`);
+            currentPlayer.addPoint();
             GameBoard.resetBoard();
+            GameBoard.createBoardUI();
             return;
         } else {
             console.log(`${currentPlayer.getName()} played turn`); // visualizing player name for testing
+            console.log(currentPlayer.getPoints());
             switchTurn();
             console.log(GameBoard.getBoard()); //added console log for testing while we have no UI
         }

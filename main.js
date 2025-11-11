@@ -15,6 +15,8 @@ const setupScreen = document.querySelector('#setupScreen');
 const gameScreen = document.querySelector('#gameScreen');
 const restartBtn = document.querySelector('#restartBtn');
 const board = document.querySelector('#board');
+
+
 let game = GameControl('', '');
 // Ai not current implemented
 // const player1IsAI = document.querySelector('#player1IsAI');
@@ -39,21 +41,10 @@ function validateInputs() {
 player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
 
-function createBoardUI() {
-  board.innerHTML = '';
-
-  for (let i = 0; i < 9; i++) {
-  const cell = document.createElement('div');
-  cell.classList.add('cell');
-  cell.dataset.index = i;
-  board.appendChild(cell);
-  }
-};
-
 startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
-  createBoardUI();
+  GameBoard.createBoardUI();
   game = GameControl(player1Input.value, player2Input.value);
 
   return game;
