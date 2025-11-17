@@ -10,6 +10,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
     const playerTwo = Player(playerTwoName || 'Player 2', 'O');
 
     let currentPlayer = playerOne; 
+    let wonRound = '';
 
     const switchTurn = () => {
         currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
@@ -72,7 +73,8 @@ const GameControl = ((playerOneName, playerTwoName) => {
             currentPlayer.addPoint();
             GameBoard.resetBoard();
             GameBoard.createBoardUI();
-            return;
+            let wonRound = `${currentPlayer}`;
+            return wonRound;
         } else {
             console.log(`${currentPlayer.getName()} played turn`); // visualizing player name for testing
             console.log(currentPlayer.getPoints());
@@ -87,7 +89,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
         e.target.classList.add('playerMark')
     };
 
-    return {playTurn, writeMArk, getPlayerIndexes, currentPlayer};
+    return {playTurn, writeMArk, getPlayerIndexes, currentPlayer, wonRound};
 
 });
 

@@ -15,7 +15,7 @@ const setupScreen = document.querySelector('#setupScreen');
 const gameScreen = document.querySelector('#gameScreen');
 const restartBtn = document.querySelector('#restartBtn');
 const board = document.querySelector('#board');
-
+const winMessage = document.querySelector('#winMessage');
 
 let game = GameControl('', '');
 // Ai not current implemented
@@ -55,7 +55,19 @@ if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
       game.writeMArk(e);
-      game.playTurn(index);
+      // game.playTurn(index);
+        if (game.playTurn(index) === `${game.wonRound}`) {
+          winMessage.innerHTML = `<p>${game.currentPlayer} won this round. 
+                                  Click Next Round to continue</p>
+                                  <button id="nextRound">Next Round</button>`;
+          const nextRoundBtn = document.querySelector('#nextRound');
+          nextRoundBtn.addEventListener('click', () => {
+            winMessage.innerHTML = '';
+            game.playTurn(index);
+          });
+        } else {
+          game.playTurn(index)
+        };
     }
 })
 
