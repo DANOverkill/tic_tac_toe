@@ -4,13 +4,16 @@ import Player from "./Player.js";
 const GameControl = ((playerOneName, playerTwoName) => {
     // const playerOneName = prompt('Please enter Name for Player 1:');
     // const playerTwoName = prompt('Please enter Name for Player 2:');
-    const GameControlID = Math.random()*100;
+    // const GameControlID = Math.random()*100;
+    // console.log(GameControlID);
 
     const playerOne = Player(playerOneName || 'Player 1', 'X');
     const playerTwo = Player(playerTwoName || 'Player 2', 'O');
 
     let currentPlayer = playerOne; 
     let wonRound = '';
+
+    const getCurrentPlayer = () => currentPlayer;
 
     const switchTurn = () => {
         currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
@@ -71,15 +74,13 @@ const GameControl = ((playerOneName, playerTwoName) => {
         if (checkWin(getPlayerIndexes(currentPlayer.getMark()))) {
             console.log(`${currentPlayer.getName()} wins!`);
             currentPlayer.addPoint();
-            GameBoard.resetBoard();
-            GameBoard.createBoardUI();
-            let wonRound = `${currentPlayer}`;
-            return wonRound;
+            return wonRound = 'win';
         } else {
             console.log(`${currentPlayer.getName()} played turn`); // visualizing player name for testing
             console.log(currentPlayer.getPoints());
             switchTurn();
             console.log(GameBoard.getBoard()); //added console log for testing while we have no UI
+            return wonRound = 'continue';
         }
     };
 
@@ -89,7 +90,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
         e.target.classList.add('playerMark')
     };
 
-    return {playTurn, writeMArk, getPlayerIndexes, currentPlayer, wonRound};
+    return {playTurn, writeMArk, getPlayerIndexes, getCurrentPlayer};
 
 });
 

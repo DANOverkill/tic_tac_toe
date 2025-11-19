@@ -41,10 +41,23 @@ function validateInputs() {
 player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
 
+    const createBoardUI = () => {
+        board.innerHTML = '';
+
+        for (let i = 0; i < 9; i++) {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+        cell.dataset.index = i;
+        board.appendChild(cell);
+        }
+    };
+
+
 startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
-  GameBoard.createBoardUI();
+  createBoardUI();
+  winMessage.innerHTML = '';
   game = GameControl(player1Input.value, player2Input.value);
 
   return game;
@@ -55,19 +68,21 @@ if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
       game.writeMArk(e);
-      // game.playTurn(index);
-        if (game.playTurn(index) === `${game.wonRound}`) {
-          winMessage.innerHTML = `<p>${game.currentPlayer} won this round. 
-                                  Click Next Round to continue</p>
-                                  <button id="nextRound">Next Round</button>`;
-          const nextRoundBtn = document.querySelector('#nextRound');
-          nextRoundBtn.addEventListener('click', () => {
-            winMessage.innerHTML = '';
-            game.playTurn(index);
-          });
-        } else {
-          game.playTurn(index)
-        };
+      let playTurn = (game.playTurn(index)); 
+      if (playTurn === 'win') {
+        winMessage.innerHTML = `<p>${game.getCurrentPlayer().getName()} won this round. 
+                                Click Next Round to continue</p>
+                                <button id="nextRound">Next Round</button>`;
+        const nextRoundBtn = document.querySelector('#nextRound');
+        nextRoundBtn.addEventListener('click', () => {
+          winMessage.innerHTML = '';
+          createBoardUI();
+          GameBoard.resetBoard();
+          playTurn;
+        });
+      } else if (playTurn === 'continue'){
+        playTurn;
+      };
     }
 })
 
