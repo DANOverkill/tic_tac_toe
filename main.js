@@ -41,16 +41,27 @@ function validateInputs() {
 player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
 
-    const createBoardUI = () => {
-        board.innerHTML = '';
+const createBoardUI = () => {
+    board.innerHTML = '';
 
-        for (let i = 0; i < 9; i++) {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        cell.dataset.index = i;
-        board.appendChild(cell);
-        }
-    };
+    for (let i = 0; i < 9; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.dataset.index = i;
+    board.appendChild(cell);
+    }
+};
+
+const writeMArk = (e) => {
+    const mark = game.getCurrentPlayer().getMark();
+    console.log(e);
+    if (e.target.innerHTML === '') {
+      e.target.innerHTML = mark;
+      e.target.classList.add('playerMark')
+    } else {
+      return;
+    }
+};    
 
 
 startBtn.addEventListener('click', () => {
@@ -67,7 +78,7 @@ board.addEventListener('click', (e) => {
 if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
-      game.writeMArk(e);
+      writeMArk(e);
       let playTurn = (game.playTurn(index)); 
       if (playTurn === 'win') {
         winMessage.innerHTML = `<p>${game.getCurrentPlayer().getName()} won this round. 

@@ -84,13 +84,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
         }
     };
 
-    const writeMArk = (e) => {
-        const mark = currentPlayer.getMark();
-        e.target.innerHTML = mark;
-        e.target.classList.add('playerMark')
-    };
-
-    return {playTurn, writeMArk, getPlayerIndexes, getCurrentPlayer};
+    return {playTurn, getPlayerIndexes, getCurrentPlayer};
 
 });
 
