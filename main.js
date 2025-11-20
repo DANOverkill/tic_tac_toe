@@ -52,17 +52,29 @@ const createBoardUI = () => {
     }
 };
 
-const writeMArk = (e) => {
+const writeMark = (e) => {
     const mark = game.getCurrentPlayer().getMark();
-    console.log(e);
-    if (e.target.innerHTML === '') {
-      e.target.innerHTML = mark;
-      e.target.classList.add('playerMark')
-    } else {
-      return;
-    }
+    e.target.innerHTML = mark;
+    e.target.classList.add('playerMark')
 };    
 
+const playRound = (index) => {
+   let playTurn = (game.playTurn(index)); 
+  if (playTurn === 'win') {
+    winMessage.innerHTML = `<p>${game.getCurrentPlayer().getName()} won this round. 
+                            Click Next Round to continue</p>
+                            <button id="nextRound">Next Round</button>`;
+    const nextRoundBtn = document.querySelector('#nextRound');
+    nextRoundBtn.addEventListener('click', () => {
+      winMessage.innerHTML = '';
+      createBoardUI();
+      GameBoard.resetBoard();
+      playTurn;
+    });
+  } else if (playTurn === 'continue'){
+    playTurn;
+  };
+}
 
 startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
@@ -78,24 +90,14 @@ board.addEventListener('click', (e) => {
 if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
-      writeMArk(e);
-      let playTurn = (game.playTurn(index)); 
-      if (playTurn === 'win') {
-        winMessage.innerHTML = `<p>${game.getCurrentPlayer().getName()} won this round. 
-                                Click Next Round to continue</p>
-                                <button id="nextRound">Next Round</button>`;
-        const nextRoundBtn = document.querySelector('#nextRound');
-        nextRoundBtn.addEventListener('click', () => {
-          winMessage.innerHTML = '';
-          createBoardUI();
-          GameBoard.resetBoard();
-          playTurn;
-        });
-      } else if (playTurn === 'continue'){
-        playTurn;
-      };
+      if (clickedCell.innerHTML !== '') {
+        return;
+      } else {
+        writeMark(e);
+        playRound(index);
+      }
     }
-})
+});
 
 restartBtn.addEventListener('click', () => {
   GameBoard.resetBoard()
