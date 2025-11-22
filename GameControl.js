@@ -77,6 +77,9 @@ const GameControl = ((playerOneName, playerTwoName) => {
             console.log(`${currentPlayer.getName()} wins!`);
             currentPlayer.addPoint();
             return wonRound = 'win';
+        }else if (!GameBoard.getBoard().includes("") && !checkWin(getPlayerIndexes(currentPlayer.getMark()))) {
+            console.log(`${currentPlayer.getName()} it's a tie!`);
+            return wonRound = 'tie';
         } else {
             console.log(`${currentPlayer.getName()} played turn`); // visualizing player name for testing
             console.log(currentPlayer.getPoints());

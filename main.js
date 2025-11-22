@@ -84,7 +84,19 @@ const playRound = (index) => {
     });
   } else if (playTurn === 'continue'){
     playTurn;
-  };
+  } else if (playTurn === 'tie') {
+    winMessage.innerHTML = `<p>This round has tied. 
+                        Click Next Round to continue</p>
+                        <button id="nextRound">Next Round</button>`;
+    const nextRoundBtn = document.querySelector('#nextRound');
+    nextRoundBtn.addEventListener('click', () => {
+      winMessage.innerHTML = '';
+      writeScoreBoard();
+      createBoardUI();
+      GameBoard.resetBoard();
+      playTurn;
+    });
+  }
 }
 
 startBtn.addEventListener('click', () => {
