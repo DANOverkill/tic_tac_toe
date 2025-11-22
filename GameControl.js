@@ -14,6 +14,8 @@ const GameControl = ((playerOneName, playerTwoName) => {
     let wonRound = '';
 
     const getCurrentPlayer = () => currentPlayer;
+    const getPlayerOne = () => playerOne;
+    const getPlayerTwo = () => playerTwo;
 
     const switchTurn = () => {
         currentPlayer = currentPlayer === playerOne ? playerTwo : playerOne;
@@ -84,7 +86,7 @@ const GameControl = ((playerOneName, playerTwoName) => {
         }
     };
 
-    return {playTurn, getPlayerIndexes, getCurrentPlayer};
+    return {playTurn, getPlayerIndexes, getCurrentPlayer, getPlayerOne, getPlayerTwo};
 
 });
 

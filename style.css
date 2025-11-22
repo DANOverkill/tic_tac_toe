@@ -44,3 +44,32 @@ body {
   user-select: none;     
 }
 
+#scoreBoard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* space between the sections */
+  padding: 10px 20px;
+  background-color: #f0f0f0; /* light gray background */
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-family: sans-serif;
+}
+
+#scoreBoard h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+#scoreBoard p {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+#scoreBoard #vs {
+  margin: 0 10px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+

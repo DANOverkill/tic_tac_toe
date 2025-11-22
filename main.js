@@ -16,6 +16,7 @@ const gameScreen = document.querySelector('#gameScreen');
 const restartBtn = document.querySelector('#restartBtn');
 const board = document.querySelector('#board');
 const winMessage = document.querySelector('#winMessage');
+const scoreBoard = document.querySelector('#scoreBoard');
 
 let game = GameControl('', '');
 // Ai not current implemented
@@ -56,10 +57,19 @@ const writeMark = (e) => {
     const mark = game.getCurrentPlayer().getMark();
     e.target.innerHTML = mark;
     e.target.classList.add('playerMark')
-};    
+};   
 
+const writeScoreBoard = () => {
+    scoreBoard.innerHTML =`
+    <h3 id="playerOneName">${game.getPlayerOne().getName()}:</h3>
+    <p id="playerOnePoints">${game.getPlayerOne().getPoints()}</p>
+    <h2 id="vs">vs</h2>
+    <p id="playerTwoPoints">${game.getPlayerTwo().getPoints()}</p>
+    <h3 id="playerTwoName">${game.getPlayerTwo().getName()}</h3>`;
+};
+ 
 const playRound = (index) => {
-   let playTurn = (game.playTurn(index)); 
+  let playTurn = (game.playTurn(index)); 
   if (playTurn === 'win') {
     winMessage.innerHTML = `<p>${game.getCurrentPlayer().getName()} won this round. 
                             Click Next Round to continue</p>
@@ -67,6 +77,7 @@ const playRound = (index) => {
     const nextRoundBtn = document.querySelector('#nextRound');
     nextRoundBtn.addEventListener('click', () => {
       winMessage.innerHTML = '';
+      writeScoreBoard();
       createBoardUI();
       GameBoard.resetBoard();
       playTurn;
@@ -82,6 +93,7 @@ startBtn.addEventListener('click', () => {
   createBoardUI();
   winMessage.innerHTML = '';
   game = GameControl(player1Input.value, player2Input.value);
+  writeScoreBoard();
 
   return game;
 });
@@ -107,6 +119,7 @@ restartBtn.addEventListener('click', () => {
   player2Input.placeholder = 'Player 2 name';
   startBtn.disabled = true;
   board.innerHTML = '';
+  scoreBoard.innerHTML = '';
   setupScreen.classList.remove('hidden');
   gameScreen.classList.add('hidden');
    // document.querySelector('#player1AI').checked = false;
