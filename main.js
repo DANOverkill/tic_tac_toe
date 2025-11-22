@@ -63,9 +63,9 @@ const writeScoreBoard = () => {
     scoreBoard.innerHTML =`
     <h3 id="playerOneName">${game.getPlayerOne().getName()}:</h3>
     <p id="playerOnePoints">${game.getPlayerOne().getPoints()}</p>
-    <h2 id="vs">vs</h2>
+    <h2 id="vs">---vs---</h2>
     <p id="playerTwoPoints">${game.getPlayerTwo().getPoints()}</p>
-    <h3 id="playerTwoName">${game.getPlayerTwo().getName()}</h3>`;
+    <h3 id="playerTwoName">:${game.getPlayerTwo().getName()}</h3>`;
 };
  
 const playRound = (index) => {
