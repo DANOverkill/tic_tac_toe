@@ -73,3 +73,20 @@ body {
   font-weight: bold;
 }
 
+#playerOneName {
+  margin: 0;
+  border-radius: 4px;
+  padding: 3px 5px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background-color: #bfe9de;
+}
+
+#playerTwoName{
+  margin: 0;
+  border-radius: 4px;
+  padding: 3px 5px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  background-color: #bfe9de;
+}

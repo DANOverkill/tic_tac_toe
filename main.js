@@ -60,12 +60,23 @@ const writeMark = (e) => {
 };   
 
 const writeScoreBoard = () => {
+  let currentPlayer = game.getCurrentPlayer();
+
+  if (currentPlayer == game.getPlayerOne()) {
     scoreBoard.innerHTML =`
     <h3 id="playerOneName">${game.getPlayerOne().getName()}:</h3>
     <p id="playerOnePoints">${game.getPlayerOne().getPoints()}</p>
     <h2 id="vs">---vs---</h2>
     <p id="playerTwoPoints">${game.getPlayerTwo().getPoints()}</p>
+    <h3>:${game.getPlayerTwo().getName()}</h3>`;
+  } else {
+    scoreBoard.innerHTML =`
+    <h3>${game.getPlayerOne().getName()}:</h3>
+    <p id="playerOnePoints">${game.getPlayerOne().getPoints()}</p>
+    <h2 id="vs">---vs---</h2>
+    <p id="playerTwoPoints">${game.getPlayerTwo().getPoints()}</p>
     <h3 id="playerTwoName">:${game.getPlayerTwo().getName()}</h3>`;
+  }
 };
  
 const playRound = (index) => {
@@ -119,6 +130,7 @@ if (e.target.classList.contains('cell')) {
       } else {
         writeMark(e);
         playRound(index);
+        writeScoreBoard();
       }
     }
 });
