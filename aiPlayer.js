@@ -15,14 +15,19 @@ const aiPlayer = () => {
     let aiPlayerMark; 
 
     let whichMark = (player1, player2) => {
-        let player1 = player1Input.checked
-        let played2 = player2Input.checked
+        let player1 = player1Input.checked;
+        let player2 = player2Input.checked;
         if (player1 === true) {
             console.log('player one is ai, and will have an X for mark')
             return aiPlayerMark = 'X';
-        } else if (played2 === true) {
+        } else if (player2 === true) {
             console.log('player two is ai, and will have an O for mark')
             return aiPlayerMark = 'O';
         }
     }; 
+
+    const createAiPlayer = () => {
+
+    };
+
 }
