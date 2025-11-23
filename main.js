@@ -83,7 +83,7 @@ const playRound = (index) => {
   let playTurn = (game.playTurn(index)); 
   if (playTurn === 'win') {
     winMessage.innerHTML = `<p>${game.getCurrentPlayer().getName()} won this round. 
-                            Click Next Round to continue</p>
+                            Click next round to continue</p>
                             <button id="nextRound">Next Round</button>`;
     const nextRoundBtn = document.querySelector('#nextRound');
     nextRoundBtn.addEventListener('click', () => {
@@ -97,7 +97,7 @@ const playRound = (index) => {
     playTurn;
   } else if (playTurn === 'tie') {
     winMessage.innerHTML = `<p>This round has tied. 
-                        Click Next Round to continue</p>
+                        Click next round to continue</p>
                         <button id="nextRound">Next Round</button>`;
     const nextRoundBtn = document.querySelector('#nextRound');
     nextRoundBtn.addEventListener('click', () => {
