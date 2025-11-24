@@ -1,7 +1,9 @@
-const Player = (name, mark) => {
+const Player = (name, mark, isAi) => {
 
     const getName = () => name;
     const getMark = () => mark;
+    const getIsAi = () => isAi;
+
     let points = 0;
 
     const addPoint = () => {
@@ -13,7 +15,7 @@ const Player = (name, mark) => {
         return points;
     };
 
-    return {getName, getMark, getPoints, addPoint};
+    return {getName, getIsAi, getMark, getPoints, addPoint};
 
 };
 

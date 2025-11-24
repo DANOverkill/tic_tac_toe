@@ -7,8 +7,8 @@ const GameControl = ((playerOneName, playerTwoName) => {
     // const GameControlID = Math.random()*100;
     // console.log(GameControlID);
 
-    const playerOne = Player(playerOneName || 'Player 1', 'X');
-    const playerTwo = Player(playerTwoName || 'Player 2', 'O');
+    const playerOne = Player(playerOneName || 'Player 1', 'X',);
+    const playerTwo = Player(playerTwoName || 'Player 2', 'O',);
 
     let currentPlayer = playerOne; 
     let wonRound = '';
