@@ -3,9 +3,6 @@ import GameBoard from './GameBoard.js';
 import Player from  './Player.js';
 import GameControl from './GameControl.js';
 
-// exposing GameBoard temporarily during dev and testing
-// window.GameBoard = GameBoard;
-// window.Player = Player;
 
 // DOM cache
 const startBtn = document.querySelector('#startGameBtn');
@@ -17,30 +14,20 @@ const restartBtn = document.querySelector('#restartBtn');
 const board = document.querySelector('#board');
 const winMessage = document.querySelector('#winMessage');
 const scoreBoard = document.querySelector('#scoreBoard');
+const player1IsAI = document.querySelector('#player1IsAI');
+const player2IsAI = document.querySelector('#player2IsAI');
 
 let game = GameControl('', '');
-// Ai not current implemented
-// const player1IsAI = document.querySelector('#player1IsAI');
-// const player2IsAI = document.querySelector('#player2IsAI');
-
-
-/*
-The changes I made to the logic are as follows:
--make GameControl a global 'let' var
--the startBtn listener creates a new GameControl overwriting the global var
--moved the click listener for the board out of the startBtn listener so it doesn't add a new listener
-    whenever the start button is clicked
-
-You could also keep the addEventListener in the startBtn listener function, but you must use removeEventListener
-or you'll get multiple listeners and multiple game logics running at once.
-*/
 
 function validateInputs() {
-  startBtn.disabled = !(player1Input.value && player2Input.value);
+  startBtn.disabled = !((player1Input.value.trim() || player1IsAI.checked) && 
+                        (player2Input.value.trim() || player2IsAI.checked));
 };
 
 player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
+player1IsAI.addEventListener('change', validateInputs);
+player2IsAI.addEventListener('change', validateInputs);
 
 const createBoardUI = () => {
     board.innerHTML = '';

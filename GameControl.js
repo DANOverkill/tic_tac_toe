@@ -2,10 +2,6 @@ import GameBoard from "./GameBoard.js";
 import Player from "./Player.js";
 
 const GameControl = ((playerOneName, playerTwoName) => {
-    // const playerOneName = prompt('Please enter Name for Player 1:');
-    // const playerTwoName = prompt('Please enter Name for Player 2:');
-    // const GameControlID = Math.random()*100;
-    // console.log(GameControlID);
 
     const playerOne = Player(playerOneName || 'Player 1', 'X',);
     const playerTwo = Player(playerTwoName || 'Player 2', 'O',);

@@ -190,3 +190,24 @@ footer {
   margin-top: 40px;
   opacity: 0.6;
 }
+
+/* ----- AI CHECKBOXES ----- */
+
+#setupScreen label {
+  display: flex;
+  align-items: center;
+  gap: 8px;              /* space between checkbox and text */
+  margin-bottom: 12px;    /* spacing between label/input pairs */
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  user-select: none;
+}
+
+#setupScreen input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2261D5;   /* modern way to color checkboxes */
+  border-radius: 4px;
+  cursor: pointer;
+}
