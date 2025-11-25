@@ -2,11 +2,20 @@
 
 import GameBoard from "./GameBoard";
 import Player from "./Player";
+import GameControl from "./GameControl";
 
-const AiTurn = (GameBoard().getBoard(), mark) => {
+const AiTurn = () => {
     
+    let gameBoard = GameBoard.getBoard();
+    
+    // this still needs to be added to GameControl
+    let mark = GameControl.getAiPlayer().getMark(); 
+
+
+
 };
 
+export default AiTurn;
 
 
 

@@ -3,7 +3,6 @@ import GameBoard from './GameBoard.js';
 import Player from  './Player.js';
 import GameControl from './GameControl.js';
 
-
 // DOM cache
 const startBtn = document.querySelector('#startGameBtn');
 const player1Input = document.querySelector('#player1Name');
@@ -17,7 +16,7 @@ const scoreBoard = document.querySelector('#scoreBoard');
 const player1IsAI = document.querySelector('#player1IsAI');
 const player2IsAI = document.querySelector('#player2IsAI');
 
-let game = GameControl('', '');
+let game = GameControl('', '', '', '');
 
 function validateInputs() {
   startBtn.disabled = !((player1Input.value.trim() || player1IsAI.checked) && 
@@ -28,6 +27,10 @@ player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
 player1IsAI.addEventListener('change', validateInputs);
 player2IsAI.addEventListener('change', validateInputs);
+
+// player2IsAI.addEventListener('change', (event) => {
+//   console.log(event);
+// });
 
 const createBoardUI = () => {
     board.innerHTML = '';
@@ -102,7 +105,8 @@ startBtn.addEventListener('click', () => {
   gameScreen.classList.remove('hidden');
   createBoardUI();
   winMessage.innerHTML = '';
-  game = GameControl(player1Input.value, player2Input.value);
+  game = GameControl(player1Input.value, player1IsAI.checked, 
+                      player2Input.value, player2IsAI.checked);
   writeScoreBoard();
 
   return game;

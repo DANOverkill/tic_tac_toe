@@ -1,10 +1,36 @@
 import GameBoard from "./GameBoard.js";
 import Player from "./Player.js";
 
-const GameControl = ((playerOneName, playerTwoName) => {
+const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
 
-    const playerOne = Player(playerOneName || 'Player 1', 'X',);
-    const playerTwo = Player(playerTwoName || 'Player 2', 'O',);
+   //createPlayer1 and createPlayer2 functions not working as intended yet. 
+    const createPlayer1 = () => {
+        let playerOne = player1Input + player1IsAI.checked;
+
+        if (playerOne === player1Input + false) {
+            return playerOne = Player(player1Input, 'X', false);
+        } else if (playerOne === player1Input + true){
+            return playerOne = Player(player1Input, 'X', true);
+        } else if (playerOne === '' + true){
+            return playerOne = Player('Player 1', 'X', true);
+        }
+    }
+    const createPlayer2 = () => {
+        let playerTwo = player2Input + player2IsAI.checked;
+
+        if (playerTwo === player2Input + false) {
+            return playerOne = Player(player2Input, 'X', false);
+        } else if (playerOne === player2Input + true){
+            return playerOne = Player(player2Input, 'X', true);
+        } else if (playerOne === '' + true){
+            return playerOne = Player('Player 1', 'X', true);
+        }
+    }
+
+    const playerOne = createPlayer1();
+    console.log(playerOne);
+    const playerTwo = createPlayer2();
+    console.log(playerTwo);
 
     let currentPlayer = playerOne; 
     let wonRound = '';
