@@ -4,31 +4,29 @@ import Player from "./Player.js";
 const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
 
    //createPlayer1 and createPlayer2 functions not working as intended yet. 
-    const createPlayer1 = (player1Input, player1IsAI) => {
-        let playerOne;
+    const createPlayer1 = () => {
+        let playerOneName;
 
-        if (playerOne === player1Input + false) {
-            return playerOne = Player(player1Input, 'X', false);
-        } else if (playerOne === player1Input + true){
-            return playerOne = Player(player1Input, 'X', true);
-        } else if (playerOne === '' + true){
-            return playerOne = Player('Player 1', 'X', true);
+        if (player1Input.trim() === '') {
+            playerOneName = 'Player 1';
+        } else if (player1Input.trim()){
+            playerOneName = player1Input.trim();
         }
-    }
-    const createPlayer2 = (player2Input, player2IsAI) => {
-        let playerTwo;
+        return Player(playerOneName, 'X', player1IsAI);
+    }    
+    const createPlayer2 = () => {
+        let playerTwoName;
 
-        if (playerTwo === player2Input + false) {
-            return playerOne = Player(player2Input, 'X', false);
-        } else if (playerOne === player2Input + true){
-            return playerOne = Player(player2Input, 'X', true);
-        } else if (playerOne === '' + true){
-            return playerOne = Player('Player 1', 'X', true);
+        if (player2Input.trim() === '') {
+            playerTwoName = 'Player 2';
+        } else if (player2Input.trim()){
+            playerTwoName = player2Input.trim();
         }
-    }
+        return Player(playerTwoName, 'O', player2IsAI);
+    } 
 
-    let playerOne = createPlayer1;
-    let playerTwo = createPlayer2;
+    let playerOne = createPlayer1();
+    let playerTwo = createPlayer2();
 
     let currentPlayer = playerOne; 
     let wonRound = '';
