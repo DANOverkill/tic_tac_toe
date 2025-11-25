@@ -2,6 +2,7 @@
 import GameBoard from './GameBoard.js';
 import Player from  './Player.js';
 import GameControl from './GameControl.js';
+import AiTurn from './AiTurn.js';
 
 // DOM cache
 const startBtn = document.querySelector('#startGameBtn');
@@ -109,13 +110,18 @@ startBtn.addEventListener('click', () => {
                       player2Input.value, player2IsAI.checked);
   writeScoreBoard();
 
-  // window.game = game; //leaving it commented out but I can use 
-                         //to expose game for testing if needed later
+  // window.game = game; 
+  // leaving it commented out but I can use 
+  // to expose game for testing if needed later
   return game;
 });
 
 board.addEventListener('click', (e) => {
-if (e.target.classList.contains('cell')) {
+let player1AiCheck = game.getPlayerOne().getIsAi();
+let player2isAiCheck = game.getPlayerTwo().getIsAi();
+
+if (player1AiCheck || player2isAiCheck) {
+  if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
       if (clickedCell.innerHTML !== '') {
@@ -124,8 +130,24 @@ if (e.target.classList.contains('cell')) {
         writeMark(e);
         playRound(index);
         writeScoreBoard();
+        AiTurn().getConsoleLog()
       }
     }
+} else if (!player1AiCheck && !player2isAiCheck) {
+  if (e.target.classList.contains('cell')) {
+    const clickedCell = e.target;
+    const index = clickedCell.dataset.index;
+    if (clickedCell.innerHTML !== '') {
+      return;
+    } else {
+      writeMark(e);
+      playRound(index);
+      writeScoreBoard();
+    }
+  }
+}
+
+
 });
 
 restartBtn.addEventListener('click', () => {

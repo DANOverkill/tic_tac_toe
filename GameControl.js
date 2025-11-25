@@ -1,5 +1,6 @@
 import GameBoard from "./GameBoard.js";
 import Player from "./Player.js";
+import AiTurn from "./AiTurn.js";
 
 const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
 
@@ -92,17 +93,12 @@ const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
         GameBoard.setMark(index, currentPlayer.getMark());
 
         if (checkWin(getPlayerIndexes(currentPlayer.getMark()))) {
-            console.log(`${currentPlayer.getName()} wins!`);
             currentPlayer.addPoint();
             return wonRound = 'win';
         }else if (!GameBoard.getBoard().includes("") && !checkWin(getPlayerIndexes(currentPlayer.getMark()))) {
-            console.log(`${currentPlayer.getName()} it's a tie!`);
             return wonRound = 'tie';
         } else {
-            console.log(`${currentPlayer.getName()} played turn`); // visualizing player name for testing
-            console.log(currentPlayer.getPoints());
             switchTurn();
-            console.log(GameBoard.getBoard()); //added console log for testing while we have no UI
             return wonRound = 'continue';
         }
     };
