@@ -103,6 +103,10 @@ const playRound = (index) => {
 startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
+  console.log(player1Input.value, 
+              player1IsAI.checked, 
+              player2Input.value, 
+              player2IsAI.checked);
   createBoardUI();
   winMessage.innerHTML = '';
   game = GameControl(player1Input.value, player1IsAI.checked, 

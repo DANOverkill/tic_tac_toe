@@ -4,8 +4,8 @@ import Player from "./Player.js";
 const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
 
    //createPlayer1 and createPlayer2 functions not working as intended yet. 
-    const createPlayer1 = () => {
-        let playerOne = player1Input + player1IsAI.checked;
+    const createPlayer1 = (player1Input, player1IsAI) => {
+        let playerOne;
 
         if (playerOne === player1Input + false) {
             return playerOne = Player(player1Input, 'X', false);
@@ -15,8 +15,8 @@ const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
             return playerOne = Player('Player 1', 'X', true);
         }
     }
-    const createPlayer2 = () => {
-        let playerTwo = player2Input + player2IsAI.checked;
+    const createPlayer2 = (player2Input, player2IsAI) => {
+        let playerTwo;
 
         if (playerTwo === player2Input + false) {
             return playerOne = Player(player2Input, 'X', false);
@@ -27,10 +27,8 @@ const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
         }
     }
 
-    const playerOne = createPlayer1();
-    console.log(playerOne);
-    const playerTwo = createPlayer2();
-    console.log(playerTwo);
+    let playerOne = createPlayer1;
+    let playerTwo = createPlayer2;
 
     let currentPlayer = playerOne; 
     let wonRound = '';
