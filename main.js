@@ -1,10 +1,12 @@
-// import the APIs
+//======================== Import the APIs ==============================//
 import GameBoard from './GameBoard.js';
 import Player from  './Player.js';
 import GameControl from './GameControl.js';
 import AiTurn from './AiTurn.js';
-
-// DOM cache
+//=======================================================================// 
+// 
+// 
+//============================= DOM cache ===============================//
 const startBtn = document.querySelector('#startGameBtn');
 const player1Input = document.querySelector('#player1Name');
 const player2Input = document.querySelector('#player2Name');
@@ -16,9 +18,15 @@ const winMessage = document.querySelector('#winMessage');
 const scoreBoard = document.querySelector('#scoreBoard');
 const player1IsAI = document.querySelector('#player1IsAI');
 const player2IsAI = document.querySelector('#player2IsAI');
-
+//========================================================================// 
+// 
+// 
+//=================== GameControl obj store Variable =====================//
 let game = GameControl('', '', '', '');
-
+//=======================================================================// 
+// 
+// 
+//=======================Boar Ui Update Logic ============================//
 function validateInputs() {
   startBtn.disabled = !((player1Input.value.trim() || player1IsAI.checked) && 
                         (player2Input.value.trim() || player2IsAI.checked));
@@ -28,10 +36,6 @@ player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
 player1IsAI.addEventListener('change', validateInputs);
 player2IsAI.addEventListener('change', validateInputs);
-
-// player2IsAI.addEventListener('change', (event) => {
-//   console.log(event);
-// });
 
 const createBoardUI = () => {
     board.innerHTML = '';
@@ -48,8 +52,20 @@ const writeMark = (e) => {
     const mark = game.getCurrentPlayer().getMark();
     e.target.innerHTML = mark;
     e.target.classList.add('playerMark')
-};   
+};
+const writeAiMark = () => {
+  const aiChosenCellIndex =  AiTurn(game.getCurrentPlayer().getMark(), GameBoard.getBoard()).aiChoice();
+  const aiMark = game.getCurrentPlayer().getMark();
+  const chosenCell = document.querySelector(`[data-index="${aiChosenCellIndex}"]`)
+  chosenCell.innerHTML = aiMark;
+  GameBoard.setMark(aiChosenCellIndex, aiMark);
+  console.log(GameBoard.getBoard());
 
+}
+//========================================================================//   
+// 
+// 
+// =========================== Score Board UI =============================//
 const writeScoreBoard = () => {
   let currentPlayer = game.getCurrentPlayer();
 
@@ -69,7 +85,10 @@ const writeScoreBoard = () => {
     <h3 id="playerTwoName">:${game.getPlayerTwo().getName()}</h3>`;
   }
 };
- 
+//========================================================================//
+// 
+// 
+// ================== Game Pause for Wins and Ties ========================//
 const playRound = (index) => {
   let playTurn = (game.playTurn(index)); 
   if (playTurn === 'win') {
@@ -100,7 +119,22 @@ const playRound = (index) => {
     });
   }
 }
+//========================================================================//
+// 
+// 
+// ==================== Trying to create a Ai Checker ====================//
+const whichPlayerIsAi = () => {
+  let player1AiCheck = game.getPlayerOne().getIsAi();
+  let player2AiCheck = game.getPlayerTwo().getIsAi();
+  return {player1AiCheck, player2AiCheck};
+};
 
+let player1AiCheck = false;
+let player2AiCheck = false;
+//========================================================================//
+// 
+// 
+//===================== Buttons and Click Handlers =======================//
 startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
@@ -109,17 +143,15 @@ startBtn.addEventListener('click', () => {
   game = GameControl(player1Input.value, player1IsAI.checked, 
                       player2Input.value, player2IsAI.checked);
   writeScoreBoard();
-
-
+  
   return game;
 });
 
-
 board.addEventListener('click', (e) => {
-let player1isAiCheck = game.getPlayerOne().getIsAi();
-let player2isAiCheck = game.getPlayerTwo().getIsAi();
+let player1AiCheck = game.getPlayerOne().getIsAi();
+let player2AiCheck = game.getPlayerTwo().getIsAi();
 
-if (player1isAiCheck || player2isAiCheck) {
+if (player1AiCheck || player2AiCheck) {
   if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
@@ -129,10 +161,9 @@ if (player1isAiCheck || player2isAiCheck) {
         writeMark(e);
         playRound(index);
         writeScoreBoard();
-        AiTurn(game.getCurrentPlayer().getMark(), game.getCurrentPlayer().getIsAi(), GameBoard.getBoard()).getConsoleLog()
       }
     }
-} else if (!player1AiCheck && !player2isAiCheck) {
+} else if (!player1AiCheck && !player2AiCheck) {
   if (e.target.classList.contains('cell')) {
     const clickedCell = e.target;
     const index = clickedCell.dataset.index;
@@ -145,7 +176,6 @@ if (player1isAiCheck || player2isAiCheck) {
     }
   }
 }
-
 
 });
 
@@ -160,9 +190,10 @@ restartBtn.addEventListener('click', () => {
   scoreBoard.innerHTML = '';
   setupScreen.classList.remove('hidden');
   gameScreen.classList.add('hidden');
-   // document.querySelector('#player1AI').checked = false;
-   // document.querySelector('#player2AI').checked = false;
+  player1IsAI.checked = false;
+  player2IsAI.checked = false;
 });
+//=======================================================================// 
 
 
 

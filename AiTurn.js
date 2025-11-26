@@ -4,7 +4,7 @@ import GameBoard from "./GameBoard.js";
 import Player from "./Player.js";
 import GameControl from "./GameControl.js";
 
-const AiTurn = (mark, aiCheck, gameBoard) => {
+const AiTurn = (mark, gameBoard) => {
 
     const boardEmptyCells = (gameBoard) => {
         const board = gameBoard;
@@ -23,11 +23,9 @@ const AiTurn = (mark, aiCheck, gameBoard) => {
         let options = boardEmptyCells(gameBoard);
         
         const randomAiChoiceIndex = Math.floor(Math.random() * options.length);
-        const ChosenIndex = options[randomAiChoiceIndex];
+        const chosenIndex = options[randomAiChoiceIndex];
         
-        gameBoard[ChosenIndex] = mark;
-        
-        return gameBoard;
+        return chosenIndex;
     };
 
     return {aiChoice};
