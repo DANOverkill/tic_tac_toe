@@ -130,7 +130,8 @@ if (player1AiCheck || player2isAiCheck) {
         writeMark(e);
         playRound(index);
         writeScoreBoard();
-        AiTurn().getConsoleLog()
+        AiTurn(game.getCurrentPlayer().getMark(), 
+                GameBoard.getBoard()).getConsoleLog()
       }
     }
 } else if (!player1AiCheck && !player2isAiCheck) {
