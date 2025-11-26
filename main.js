@@ -110,17 +110,16 @@ startBtn.addEventListener('click', () => {
                       player2Input.value, player2IsAI.checked);
   writeScoreBoard();
 
-  // window.game = game; 
-  // leaving it commented out but I can use 
-  // to expose game for testing if needed later
+
   return game;
 });
 
+
 board.addEventListener('click', (e) => {
-let player1AiCheck = game.getPlayerOne().getIsAi();
+let player1isAiCheck = game.getPlayerOne().getIsAi();
 let player2isAiCheck = game.getPlayerTwo().getIsAi();
 
-if (player1AiCheck || player2isAiCheck) {
+if (player1isAiCheck || player2isAiCheck) {
   if (e.target.classList.contains('cell')) {
       const clickedCell = e.target;
       const index = clickedCell.dataset.index;
@@ -130,8 +129,7 @@ if (player1AiCheck || player2isAiCheck) {
         writeMark(e);
         playRound(index);
         writeScoreBoard();
-        AiTurn(game.getCurrentPlayer().getMark(), 
-                GameBoard.getBoard()).getConsoleLog()
+        AiTurn(game.getCurrentPlayer().getMark(), game.getCurrentPlayer().getIsAi(), GameBoard.getBoard()).getConsoleLog()
       }
     }
 } else if (!player1AiCheck && !player2isAiCheck) {
