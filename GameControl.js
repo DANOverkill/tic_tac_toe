@@ -103,7 +103,7 @@ const GameControl = ((player1Input, player1IsAI, player2Input, player2IsAI) => {
         }
     };
 
-    return {playTurn, getPlayerIndexes, getCurrentPlayer, getPlayerOne, getPlayerTwo};
+    return {playTurn, getPlayerIndexes, getCurrentPlayer, getPlayerOne, getPlayerTwo, switchTurn};
 
 });
 

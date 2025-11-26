@@ -53,11 +53,15 @@ const writeMark = (e) => {
     e.target.innerHTML = mark;
     e.target.classList.add('playerMark')
 };
-const writeAiMark = () => {
-  const aiChosenCellIndex =  AiTurn(game.getCurrentPlayer().getMark(), GameBoard.getBoard()).aiChoice();
-  const aiMark = game.getCurrentPlayer().getMark();
+const writeAiRandomMark = () => {
+  const aiChosenCellIndex =  AiTurn(game.getCurrentPlayer().getIsAi(), 
+                              game.getCurrentPlayer().getMark(),
+                              GameBoard.getBoard()).aiRandomChoice();
+  const aiMark = AiTurn(game.getCurrentPlayer().getIsAi(), 
+                        game.getCurrentPlayer().getMark(),).getAiMark();
   const chosenCell = document.querySelector(`[data-index="${aiChosenCellIndex}"]`)
   chosenCell.innerHTML = aiMark;
+  chosenCell.classList.add('playerMArk');
   GameBoard.setMark(aiChosenCellIndex, aiMark);
   console.log(GameBoard.getBoard());
 
@@ -122,18 +126,6 @@ const playRound = (index) => {
 //========================================================================//
 // 
 // 
-// ==================== Trying to create a Ai Checker ====================//
-const whichPlayerIsAi = () => {
-  let player1AiCheck = game.getPlayerOne().getIsAi();
-  let player2AiCheck = game.getPlayerTwo().getIsAi();
-  return {player1AiCheck, player2AiCheck};
-};
-
-let player1AiCheck = false;
-let player2AiCheck = false;
-//========================================================================//
-// 
-// 
 //===================== Buttons and Click Handlers =======================//
 startBtn.addEventListener('click', () => {
   setupScreen.classList.add('hidden');
@@ -161,8 +153,10 @@ if (player1AiCheck || player2AiCheck) {
         writeMark(e);
         playRound(index);
         writeScoreBoard();
-      }
+        writeAiRandomMark();
+        game.switchTurn();
     }
+  }
 } else if (!player1AiCheck && !player2AiCheck) {
   if (e.target.classList.contains('cell')) {
     const clickedCell = e.target;
