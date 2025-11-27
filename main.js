@@ -32,10 +32,22 @@ function validateInputs() {
                         (player2Input.value.trim() || player2IsAI.checked));
 };
 
+function onlyOneAiAllowed(event) {
+  const clickedCheckbox = event.target;
+
+  if (clickedCheckbox === player1IsAI && player1IsAI.checked) {
+    player2IsAI.checked = false;
+  } else if (clickedCheckbox === player2IsAI && player2IsAI.checked) {
+    player1IsAI.checked = false;
+  }
+}
+
 player1Input.addEventListener('input', validateInputs);
 player2Input.addEventListener('input', validateInputs);
 player1IsAI.addEventListener('change', validateInputs);
 player2IsAI.addEventListener('change', validateInputs);
+player1IsAI.addEventListener('change', onlyOneAiAllowed);
+player2IsAI.addEventListener('change', onlyOneAiAllowed);
 
 const createBoardUI = () => {
     board.innerHTML = '';
@@ -58,10 +70,11 @@ const writeAiRandomMark = () => {
                               game.getCurrentPlayer().getMark(),
                               GameBoard.getBoard()).aiRandomChoice();
   const aiMark = AiTurn(game.getCurrentPlayer().getIsAi(), 
-                        game.getCurrentPlayer().getMark(),).getAiMark();
+                        game.getCurrentPlayer().getMark(), 
+                        GameBoard.getBoard()).getAiMark();
   const chosenCell = document.querySelector(`[data-index="${aiChosenCellIndex}"]`)
   chosenCell.innerHTML = aiMark;
-  chosenCell.classList.add('playerMArk');
+  chosenCell.classList.add('playerMark');
   GameBoard.setMark(aiChosenCellIndex, aiMark);
   console.log(GameBoard.getBoard());
 
@@ -105,10 +118,20 @@ const playRound = (index) => {
       writeScoreBoard();
       createBoardUI();
       GameBoard.resetBoard();
+      if (!game.getCurrentPlayer().getIsAi()) {
       playTurn;
+      } else {
+      writeAiRandomMark();
+      game.switchTurn();
+      }
     });
   } else if (playTurn === 'continue'){
-    playTurn;
+      if (!game.getCurrentPlayer().getIsAi()) {
+      playTurn;
+      } else {
+      writeAiRandomMark();  
+      game.switchTurn();
+      }
   } else if (playTurn === 'tie') {
     winMessage.innerHTML = `<p>This round has tied. 
                         Click next round to continue</p>
@@ -119,7 +142,12 @@ const playRound = (index) => {
       writeScoreBoard();
       createBoardUI();
       GameBoard.resetBoard();
+      if (!game.getCurrentPlayer().getIsAi()) {
       playTurn;
+      } else {
+      writeAiRandomMark();  
+      game.switchTurn();
+      }
     });
   }
 }
@@ -135,29 +163,16 @@ startBtn.addEventListener('click', () => {
   game = GameControl(player1Input.value, player1IsAI.checked, 
                       player2Input.value, player2IsAI.checked);
   writeScoreBoard();
-  
-  return game;
+  if (game.getCurrentPlayer().getIsAi()){
+    writeAiRandomMark();
+    game.switchTurn();
+    return game;
+  } else {
+    return game;
+  } 
 });
 
 board.addEventListener('click', (e) => {
-let player1AiCheck = game.getPlayerOne().getIsAi();
-let player2AiCheck = game.getPlayerTwo().getIsAi();
-
-if (player1AiCheck || player2AiCheck) {
-  if (e.target.classList.contains('cell')) {
-      const clickedCell = e.target;
-      const index = clickedCell.dataset.index;
-      if (clickedCell.innerHTML !== '') {
-        return;
-      } else {
-        writeMark(e);
-        playRound(index);
-        writeScoreBoard();
-        writeAiRandomMark();
-        game.switchTurn();
-    }
-  }
-} else if (!player1AiCheck && !player2AiCheck) {
   if (e.target.classList.contains('cell')) {
     const clickedCell = e.target;
     const index = clickedCell.dataset.index;
@@ -169,8 +184,6 @@ if (player1AiCheck || player2AiCheck) {
       writeScoreBoard();
     }
   }
-}
-
 });
 
 restartBtn.addEventListener('click', () => {
