@@ -66,19 +66,23 @@ const writeMark = (e) => {
     e.target.classList.add('playerMark')
 };
 const writeAiRandomMark = () => {
-  const aiChosenCellIndex =  AiTurn(game.getCurrentPlayer().getIsAi(), 
-                              game.getCurrentPlayer().getMark(),
-                              GameBoard.getBoard()).aiRandomChoice();
-  const aiMark = AiTurn(game.getCurrentPlayer().getIsAi(), 
-                        game.getCurrentPlayer().getMark(), 
-                        GameBoard.getBoard()).getAiMark();
+  const ai = AiTurn(
+    game.getCurrentPlayer().getIsAi(),
+    game.getCurrentPlayer().getMark(),
+    GameBoard.getBoard()
+  );
+
+  const aiChosenCellIndex = ai.aiRandomChoice();
+  const aiMark = ai.getAiMark();
+
   const chosenCell = document.querySelector(`[data-index="${aiChosenCellIndex}"]`)
   chosenCell.innerHTML = aiMark;
   chosenCell.classList.add('playerMark');
-  GameBoard.setMark(aiChosenCellIndex, aiMark);
-  console.log(GameBoard.getBoard());
 
-}
+  GameBoard.setMark(aiChosenCellIndex, aiMark);
+
+  return game.playTurn(aiChosenCellIndex);
+};
 //========================================================================//   
 // 
 // 
@@ -107,31 +111,45 @@ const writeScoreBoard = () => {
 // 
 // ================== Game Pause for Wins and Ties ========================//
 const playRound = (index) => {
-  let playTurn = (game.playTurn(index)); 
+  let playTurn = game.playTurn(index); 
+
   if (playTurn === 'win') {
-    winMessage.innerHTML = `<p>${game.getCurrentPlayer().getName()} won this round. 
-                            Click next round to continue</p>
-                            <button id="nextRound">Next Round</button>`;
+    winMessage.innerHTML = `
+    <p>${game.getCurrentPlayer().getName()} won this round. 
+    Click next round to continue</p>
+    <button id="nextRound">Next Round</button>
+    `;
     const nextRoundBtn = document.querySelector('#nextRound');
     nextRoundBtn.addEventListener('click', () => {
       winMessage.innerHTML = '';
-      writeScoreBoard();
-      createBoardUI();
       GameBoard.resetBoard();
-      if (!game.getCurrentPlayer().getIsAi()) {
-      playTurn;
-      } else {
-      writeAiRandomMark();
-      game.switchTurn();
+      createBoardUI();
+      writeScoreBoard();
+      if (game.getCurrentPlayer().getIsAi()) {
+        writeAiRandomMark();
       }
     });
   } else if (playTurn === 'continue'){
-      if (!game.getCurrentPlayer().getIsAi()) {
-      playTurn;
-      } else {
-      writeAiRandomMark();  
-      game.switchTurn();
-      }
+      if (game.getCurrentPlayer().getIsAi()) {
+        let aiResult = writeAiRandomMark(); 
+        if (aiResult === 'win') {
+          winMessage.innerHTML = `
+          <p>${game.getCurrentPlayer().getName()} won this round. 
+          Click next round to continue</p>
+          <button id="nextRound">Next Round</button>
+          `;
+          const nextRoundBtn = document.querySelector('#nextRound');
+          nextRoundBtn.addEventListener('click', () => {
+            winMessage.innerHTML = '';
+            GameBoard.resetBoard();
+            createBoardUI();
+            writeScoreBoard();
+            if (game.getCurrentPlayer().getIsAi()) {
+              writeAiRandomMark();
+            }
+          });
+        }
+      } 
   } else if (playTurn === 'tie') {
     winMessage.innerHTML = `<p>This round has tied. 
                         Click next round to continue</p>
@@ -142,11 +160,8 @@ const playRound = (index) => {
       writeScoreBoard();
       createBoardUI();
       GameBoard.resetBoard();
-      if (!game.getCurrentPlayer().getIsAi()) {
-      playTurn;
-      } else {
+      if (game.getCurrentPlayer().getIsAi()) {
       writeAiRandomMark();  
-      game.switchTurn();
       }
     });
   }
@@ -165,7 +180,6 @@ startBtn.addEventListener('click', () => {
   writeScoreBoard();
   if (game.getCurrentPlayer().getIsAi()){
     writeAiRandomMark();
-    game.switchTurn();
     return game;
   } else {
     return game;
