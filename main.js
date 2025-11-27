@@ -172,7 +172,7 @@ const playRound = async (index) => {
       createBoardUI();
       GameBoard.resetBoard();
       if (game.getCurrentPlayer().getIsAi()) {
-      writeAiRandomMark();  
+      awaitwriteAiRandomMark();  
       }
     });
   }
