@@ -18,6 +18,7 @@ const winMessage = document.querySelector('#winMessage');
 const scoreBoard = document.querySelector('#scoreBoard');
 const player1IsAI = document.querySelector('#player1IsAI');
 const player2IsAI = document.querySelector('#player2IsAI');
+const spinner = document.querySelector('#spinner');
 //========================================================================// 
 // 
 // 
@@ -60,12 +61,19 @@ const createBoardUI = () => {
     }
 };
 
+const showSpinner = () => spinner.classList.add('show');
+const hideSpinner = () => spinner.classList.remove('show');
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 const writeMark = (e) => {
     const mark = game.getCurrentPlayer().getMark();
     e.target.innerHTML = mark;
     e.target.classList.add('playerMark')
 };
-const writeAiRandomMark = () => {
+const writeAiRandomMark = async () => {
+
+  showSpinner();
+
   const ai = AiTurn(
     game.getCurrentPlayer().getIsAi(),
     game.getCurrentPlayer().getMark(),
@@ -74,6 +82,9 @@ const writeAiRandomMark = () => {
 
   const aiChosenCellIndex = ai.aiRandomChoice();
   const aiMark = ai.getAiMark();
+
+  await sleep(600);
+  hideSpinner();
 
   const chosenCell = document.querySelector(`[data-index="${aiChosenCellIndex}"]`)
   chosenCell.innerHTML = aiMark;
@@ -110,7 +121,7 @@ const writeScoreBoard = () => {
 // 
 // 
 // ================== Game Pause for Wins and Ties ========================//
-const playRound = (index) => {
+const playRound = async (index) => {
   let playTurn = game.playTurn(index); 
 
   if (playTurn === 'win') {
@@ -131,7 +142,7 @@ const playRound = (index) => {
     });
   } else if (playTurn === 'continue'){
       if (game.getCurrentPlayer().getIsAi()) {
-        let aiResult = writeAiRandomMark(); 
+        let aiResult = await writeAiRandomMark(); 
         if (aiResult === 'win') {
           winMessage.innerHTML = `
           <p>${game.getCurrentPlayer().getName()} won this round. 
