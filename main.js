@@ -22,8 +22,9 @@ const spinner = document.querySelector('#spinner');
 //========================================================================// 
 // 
 // 
-//=================== GameControl obj store Variable =====================//
+//========================  Global Variables  ===========================//
 let game = GameControl('', '', '', '');
+let aiIsThinking = false;
 //=======================================================================// 
 // 
 // 
@@ -70,8 +71,10 @@ const writeMark = (e) => {
     e.target.innerHTML = mark;
     e.target.classList.add('playerMark')
 };
+
 const writeAiRandomMark = async () => {
 
+  aiIsThinking = true;
   showSpinner();
 
   const ai = AiTurn(
@@ -91,6 +94,7 @@ const writeAiRandomMark = async () => {
   chosenCell.classList.add('playerMark');
 
   GameBoard.setMark(aiChosenCellIndex, aiMark);
+  aiIsThinking = false;
 
   return game.playTurn(aiChosenCellIndex);
 };
@@ -159,20 +163,38 @@ const playRound = async (index) => {
               writeAiRandomMark();
             }
           });
+        } else if (aiResult === 'tie') {
+          winMessage.innerHTML = `
+          <p>This round has tied. 
+          Click next round to continue</p>
+          <button id="nextRound">Next Round</button>
+          `;
+          const nextRoundBtn = document.querySelector('#nextRound');
+          nextRoundBtn.addEventListener('click', () => {
+            winMessage.innerHTML = '';
+            GameBoard.resetBoard();
+            createBoardUI();
+            writeScoreBoard();
+            if (game.getCurrentPlayer().getIsAi()) {
+              writeAiRandomMark();
+            }
+          });
         }
       } 
   } else if (playTurn === 'tie') {
-    winMessage.innerHTML = `<p>This round has tied. 
-                        Click next round to continue</p>
-                        <button id="nextRound">Next Round</button>`;
+    winMessage.innerHTML = `
+    <p>This round has tied. 
+    Click next round to continue</p>
+    <button id="nextRound">Next Round</button>
+    `;
     const nextRoundBtn = document.querySelector('#nextRound');
     nextRoundBtn.addEventListener('click', () => {
       winMessage.innerHTML = '';
-      writeScoreBoard();
-      createBoardUI();
       GameBoard.resetBoard();
+      createBoardUI();
+      writeScoreBoard();
       if (game.getCurrentPlayer().getIsAi()) {
-      awaitwriteAiRandomMark();  
+        writeAiRandomMark();  
       }
     });
   }
@@ -198,6 +220,9 @@ startBtn.addEventListener('click', () => {
 });
 
 board.addEventListener('click', (e) => {
+  if (aiIsThinking) return;
+  if (document.getElementById('nextRound')) return;
+  
   if (e.target.classList.contains('cell')) {
     const clickedCell = e.target;
     const index = clickedCell.dataset.index;
