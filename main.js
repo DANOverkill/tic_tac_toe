@@ -18,11 +18,13 @@ const winMessage = document.querySelector('#winMessage');
 const scoreBoard = document.querySelector('#scoreBoard');
 const player1IsAI = document.querySelector('#player1IsAI');
 const player2IsAI = document.querySelector('#player2IsAI');
+const spinner = document.querySelector('#spinner');
 //========================================================================// 
 // 
 // 
-//=================== GameControl obj store Variable =====================//
+//========================  Global Variables  ===========================//
 let game = GameControl('', '', '', '');
+let aiIsThinking = false;
 //=======================================================================// 
 // 
 // 
@@ -60,12 +62,21 @@ const createBoardUI = () => {
     }
 };
 
+const showSpinner = () => spinner.classList.add('show');
+const hideSpinner = () => spinner.classList.remove('show');
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 const writeMark = (e) => {
     const mark = game.getCurrentPlayer().getMark();
     e.target.innerHTML = mark;
     e.target.classList.add('playerMark')
 };
-const writeAiRandomMark = () => {
+
+const writeAiRandomMark = async () => {
+
+  aiIsThinking = true;
+  showSpinner();
+
   const ai = AiTurn(
     game.getCurrentPlayer().getIsAi(),
     game.getCurrentPlayer().getMark(),
@@ -75,11 +86,15 @@ const writeAiRandomMark = () => {
   const aiChosenCellIndex = ai.aiRandomChoice();
   const aiMark = ai.getAiMark();
 
+  await sleep(600);
+  hideSpinner();
+
   const chosenCell = document.querySelector(`[data-index="${aiChosenCellIndex}"]`)
   chosenCell.innerHTML = aiMark;
   chosenCell.classList.add('playerMark');
 
   GameBoard.setMark(aiChosenCellIndex, aiMark);
+  aiIsThinking = false;
 
   return game.playTurn(aiChosenCellIndex);
 };
@@ -110,7 +125,7 @@ const writeScoreBoard = () => {
 // 
 // 
 // ================== Game Pause for Wins and Ties ========================//
-const playRound = (index) => {
+const playRound = async (index) => {
   let playTurn = game.playTurn(index); 
 
   if (playTurn === 'win') {
@@ -131,7 +146,7 @@ const playRound = (index) => {
     });
   } else if (playTurn === 'continue'){
       if (game.getCurrentPlayer().getIsAi()) {
-        let aiResult = writeAiRandomMark(); 
+        let aiResult = await writeAiRandomMark(); 
         if (aiResult === 'win') {
           winMessage.innerHTML = `
           <p>${game.getCurrentPlayer().getName()} won this round. 
@@ -148,20 +163,38 @@ const playRound = (index) => {
               writeAiRandomMark();
             }
           });
+        } else if (aiResult === 'tie') {
+          winMessage.innerHTML = `
+          <p>This round has tied. 
+          Click next round to continue</p>
+          <button id="nextRound">Next Round</button>
+          `;
+          const nextRoundBtn = document.querySelector('#nextRound');
+          nextRoundBtn.addEventListener('click', () => {
+            winMessage.innerHTML = '';
+            GameBoard.resetBoard();
+            createBoardUI();
+            writeScoreBoard();
+            if (game.getCurrentPlayer().getIsAi()) {
+              writeAiRandomMark();
+            }
+          });
         }
       } 
   } else if (playTurn === 'tie') {
-    winMessage.innerHTML = `<p>This round has tied. 
-                        Click next round to continue</p>
-                        <button id="nextRound">Next Round</button>`;
+    winMessage.innerHTML = `
+    <p>This round has tied. 
+    Click next round to continue</p>
+    <button id="nextRound">Next Round</button>
+    `;
     const nextRoundBtn = document.querySelector('#nextRound');
     nextRoundBtn.addEventListener('click', () => {
       winMessage.innerHTML = '';
-      writeScoreBoard();
-      createBoardUI();
       GameBoard.resetBoard();
+      createBoardUI();
+      writeScoreBoard();
       if (game.getCurrentPlayer().getIsAi()) {
-      writeAiRandomMark();  
+        writeAiRandomMark();  
       }
     });
   }
@@ -187,6 +220,9 @@ startBtn.addEventListener('click', () => {
 });
 
 board.addEventListener('click', (e) => {
+  if (aiIsThinking) return;
+  if (document.getElementById('nextRound')) return;
+  
   if (e.target.classList.contains('cell')) {
     const clickedCell = e.target;
     const index = clickedCell.dataset.index;
