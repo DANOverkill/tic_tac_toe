@@ -123,6 +123,40 @@ const writeScoreBoard = () => {
     `;
   }
 };
+const writeWinMessage = () => {
+  winMessage.innerHTML = `
+  <p>${game.getCurrentPlayer().getName()} won this round. 
+  Click next round to continue</p>
+  <button id="nextRound">Next Round</button>
+  `;
+  const nextRoundBtn = document.querySelector('#nextRound');
+  nextRoundBtn.addEventListener('click', () => {
+    winMessage.innerHTML = '';
+    GameBoard.resetBoard();
+    createBoardUI();
+    writeScoreBoard();
+    if (game.getCurrentPlayer().getIsAi()) {
+      writeAiRandomMark();
+    }      
+  });
+}
+const writeTieMessage = () => {
+  winMessage.innerHTML = `
+  <p>This round has tied. 
+  Click next round to continue</p>
+  <button id="nextRound">Next Round</button>
+  `;
+  const nextRoundBtn = document.querySelector('#nextRound');
+  nextRoundBtn.addEventListener('click', () => {
+    winMessage.innerHTML = '';
+    GameBoard.resetBoard();
+    createBoardUI();
+    writeScoreBoard();
+    if (game.getCurrentPlayer().getIsAi()) {
+      writeAiRandomMark();
+    }
+  });  
+}
 //========================================================================//
 // 
 // 
@@ -130,77 +164,15 @@ const writeScoreBoard = () => {
 const playRound = async (index) => {
   let playTurn = game.playTurn(index); 
 
-  if (playTurn === 'win') {
-    winMessage.innerHTML = `
-    <p>${game.getCurrentPlayer().getName()} won this round. 
-    Click next round to continue</p>
-    <button id="nextRound">Next Round</button>
-    `;
-    const nextRoundBtn = document.querySelector('#nextRound');
-    nextRoundBtn.addEventListener('click', () => {
-      winMessage.innerHTML = '';
-      GameBoard.resetBoard();
-      createBoardUI();
-      writeScoreBoard();
-      if (game.getCurrentPlayer().getIsAi()) {
-        writeAiRandomMark();
-      }
-    });
-  } else if (playTurn === 'continue'){
+  if (playTurn === 'win') {writeWinMessage();} 
+  else if (playTurn === 'continue'){
       if (game.getCurrentPlayer().getIsAi()) {
         let aiResult = await writeAiRandomMark();
         writeScoreBoard();
-        if (aiResult === 'win') {
-          winMessage.innerHTML = `
-          <p>${game.getCurrentPlayer().getName()} won this round. 
-          Click next round to continue</p>
-          <button id="nextRound">Next Round</button>
-          `;
-          const nextRoundBtn = document.querySelector('#nextRound');
-          nextRoundBtn.addEventListener('click', () => {
-            winMessage.innerHTML = '';
-            GameBoard.resetBoard();
-            createBoardUI();
-            writeScoreBoard();
-            if (game.getCurrentPlayer().getIsAi()) {
-              writeAiRandomMark();
-            }
-          });
-        } else if (aiResult === 'tie') {
-          winMessage.innerHTML = `
-          <p>This round has tied. 
-          Click next round to continue</p>
-          <button id="nextRound">Next Round</button>
-          `;
-          const nextRoundBtn = document.querySelector('#nextRound');
-          nextRoundBtn.addEventListener('click', () => {
-            winMessage.innerHTML = '';
-            GameBoard.resetBoard();
-            createBoardUI();
-            writeScoreBoard();
-            if (game.getCurrentPlayer().getIsAi()) {
-              writeAiRandomMark();
-            }
-          });
-        }
+        if (aiResult === 'win') {writeWinMessage();} 
+        else if (aiResult === 'tie') {writeTieMessage();}
       } 
-  } else if (playTurn === 'tie') {
-    winMessage.innerHTML = `
-    <p>This round has tied. 
-    Click next round to continue</p>
-    <button id="nextRound">Next Round</button>
-    `;
-    const nextRoundBtn = document.querySelector('#nextRound');
-    nextRoundBtn.addEventListener('click', () => {
-      winMessage.innerHTML = '';
-      GameBoard.resetBoard();
-      createBoardUI();
-      writeScoreBoard();
-      if (game.getCurrentPlayer().getIsAi()) {
-        writeAiRandomMark();  
-      }
-    });
-  }
+  } else if (playTurn === 'tie') {writeTieMessage();}
 }
 //========================================================================//
 // 
