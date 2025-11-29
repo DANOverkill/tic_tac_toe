@@ -111,14 +111,16 @@ const writeScoreBoard = () => {
     <p id="playerOnePoints">${game.getPlayerOne().getPoints()}</p>
     <h2 id="vs">---vs---</h2>
     <p id="playerTwoPoints">${game.getPlayerTwo().getPoints()}</p>
-    <h3>:${game.getPlayerTwo().getName()}</h3>`;
+    <h3>:${game.getPlayerTwo().getName()}</h3>
+    `;
   } else {
     scoreBoard.innerHTML =`
     <h3>${game.getPlayerOne().getName()}:</h3>
     <p id="playerOnePoints">${game.getPlayerOne().getPoints()}</p>
     <h2 id="vs">---vs---</h2>
     <p id="playerTwoPoints">${game.getPlayerTwo().getPoints()}</p>
-    <h3 id="playerTwoName">:${game.getPlayerTwo().getName()}</h3>`;
+    <h3 id="playerTwoName">:${game.getPlayerTwo().getName()}</h3>
+    `;
   }
 };
 //========================================================================//
@@ -146,7 +148,8 @@ const playRound = async (index) => {
     });
   } else if (playTurn === 'continue'){
       if (game.getCurrentPlayer().getIsAi()) {
-        let aiResult = await writeAiRandomMark(); 
+        let aiResult = await writeAiRandomMark();
+        writeScoreBoard();
         if (aiResult === 'win') {
           winMessage.innerHTML = `
           <p>${game.getCurrentPlayer().getName()} won this round. 
