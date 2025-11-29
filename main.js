@@ -164,15 +164,23 @@ const writeTieMessage = () => {
 const playRound = async (index) => {
   let playTurn = game.playTurn(index); 
 
-  if (playTurn === 'win') {writeWinMessage();} 
+  if (playTurn === 'win') {
+    writeWinMessage();
+  } 
   else if (playTurn === 'continue'){
       if (game.getCurrentPlayer().getIsAi()) {
         let aiResult = await writeAiRandomMark();
         writeScoreBoard();
-        if (aiResult === 'win') {writeWinMessage();} 
-        else if (aiResult === 'tie') {writeTieMessage();}
+        if (aiResult === 'win') {
+          writeWinMessage();
+        } 
+        else if (aiResult === 'tie') {
+           writeTieMessage();
+        }
       } 
-  } else if (playTurn === 'tie') {writeTieMessage();}
+  } else if (playTurn === 'tie') {
+    writeTieMessage();
+  }
 }
 //========================================================================//
 // 
