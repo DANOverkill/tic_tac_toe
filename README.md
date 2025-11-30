@@ -63,6 +63,8 @@ A modular Tic Tac Toe game built in vanilla JavaScript using ES modules. The pro
 * Animations for moves
 * Mobile-friendly layout improvements
 
+---
+
 ## Known issues.
 
 1. Player turn indication on the Score Board does not work properly. 
