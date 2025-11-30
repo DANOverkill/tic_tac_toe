@@ -4,10 +4,11 @@ A modular Tic Tac Toe game built in vanilla JavaScript using ES modules. The pro
 
 ---
 
-## 🚀 Features
+## Features
 
 * **Modular Architecture**
 
+  * `main.js` manages UI integration with logic
   * `GameBoard.js` manages board array states
   * `Player.js` creates player objects (human + AI)
   * `GameControl.js` orchestrates turns, win/tie checking, and round flow
@@ -16,33 +17,20 @@ A modular Tic Tac Toe game built in vanilla JavaScript using ES modules. The pro
 * **AI Logic**
 
   * Random-move AI with built-in tie/win detection
-  * AI turn delay support (`aiIsThinking` flag) to prevent multi-click issues
+  * AI turn delay support (`aiIsThinking` flag) for better use experience
 
 * **Win/Tie Detection**
 
   * Game properly displays messages and spawns a **Next Round** button
   * Prevents further interaction when a round is over
 
-* **DOM Interaction Fixes**
-
-  * Correct checks for UI elements (e.g., `document.getElementById('nextRound')`)
-  * Prevents AI or player moves after game end
-
-* **Import/Export Stability**
-
-  * Project uses explicit file extensions (`import X from './X.js'`)
-  * Fixed corruption errors due to missing extensions
-
-* **Git Workflow Improvements**
-
-  * Branch cleanup instructions (`git branch -d`, `git push origin --delete`)
-
 ---
 
-## 📦 File Structure
+## File Structure
 
 ```
 /project
+  ├── main.js
   ├── GameBoard.js
   ├── GameControl.js
   ├── Player.js
@@ -54,7 +42,7 @@ A modular Tic Tac Toe game built in vanilla JavaScript using ES modules. The pro
 
 ---
 
-## 🧠 AI Turn Flow
+## AI Turn Flow
 
 1. Board click triggers player move
 2. `aiIsThinking` becomes true
@@ -68,41 +56,22 @@ A modular Tic Tac Toe game built in vanilla JavaScript using ES modules. The pro
 
 ---
 
-## 🐛 Common Fixes in This Project
+## Next Steps (Optional Improvements)
 
-* **Event listener firing multiple times** → resolved by guarding with flags
-* **Tie detection not triggering UI** → fixed by hooking into return values
-* **Next Round button reappearing incorrectly** → fixed via DOM existence checks
-
----
-
-## 🧪 Debugging Tools Used
-
-* Console logs during AI turn flow
-* Step-by-step evaluation for tie/win detection
-* Verification that modules are loading correctly in live server
-
----
-
-## 🔧 Setup & Running
-
-1. Clone the repo
-2. Serve the project using Live Server or any static server
-3. Open `index.html` in the browser
-
-> **Note:** Modules require HTTP(s); opening the file directly without a server will not work.
-
----
-
-## ✨ Next Steps (Optional Improvements)
-
-* Smarter AI (minimax)
-* Scoreboard persistence
+* Smarter AI (write proper ai logic for tic tac toe)
+* Scoreboard persistence: keeping track of points for a best of style game
 * Animations for moves
 * Mobile-friendly layout improvements
+
+## Known issues.
+
+1. Player turn indication on the Score Board does not work properly. 
+    * For the first 2 rounds of a match procedding a mach that comes right after the Ai player ties or wins the previous match, the player turn indicator freeses on the Ai player.
+    * Once the human player, plays his turn, the function returns to working properly. 
+    * The issue is most likely happening due to the fuction writeAiRandomMark() running asynchronously.  
 
 ---
 
 ## 📚 Summary
 
-This project was built while experimenting with modular JavaScript, AI move logic, and debugging DOM/game flow issues. It demonstrates clean structure, incremental improvements, and refining gameplay interactions until everything worked smoothly.
+This project was built while experimenting with modular JavaScript. It demonstrates an atempt to create a clean structure that separate responsabilitied between differnt logic files to creat a structure that allows for scaling and incremental improvements.
