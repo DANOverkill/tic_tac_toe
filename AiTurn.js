@@ -46,3 +46,66 @@ const AiTurn = (aiCheck, mark, gameBoard) => {
 
 
 export default AiTurn;
+
+// == original minmax logic ===//
+
+// gameCurrent argument seems to be the gameBoard argument the factory takes in
+
+const miniMax = (gameCurrent, player, depth) => {
+	const min = (a, b) => {
+		return a < b ? a : b;
+	}
+	
+	const max = (a, b) => {
+		return a > b ? a : b;
+	}
+
+    let empty = emptyCells(gameCurrent); //boardEmptyCells already does this
+
+    if (checkWinner(gameCurrent, humanPlayer)) {
+        return { score: -1 };
+    }
+    if (checkWinner(gameCurrent, computerPlayer)) {
+        return { score: 1 };
+    }
+    if (empty.length === 0 || depth === 0) {
+        return { score: 0 };
+    }
+    
+    depth--;
+
+    let movePossibles = [];
+
+    for (let i = 0; i < empty.length; i++) {
+        let move = {};
+        move.index = empty[i];
+
+        let newGame = gameCurrent.slice();
+        newGame[empty[i]] = player;
+
+		let result = miniMax(newGame, player === computerPlayer ? humanPlayer : computerPlayer, depth);
+        move.score = result.score;
+        movePossibles.push(move);
+    }
+
+	let bestMove;	
+    if (player === computerPlayer) {
+        bestScore = -Infinity;
+        for (let i = 0; i < movePossibles.length; i++) {
+            bestScore = max(bestScore, movePossibles[i].score);
+            if (movePossibles[i].score === bestScore) {
+				bestMove = i;
+            }
+        }
+    } else {
+        bestScore = Infinity;
+        for (let i = 0; i < movePossibles.length; i++) {
+            bestScore = min(bestScore, movePossibles[i].score);
+            if (movePossibles[i].score === bestScore) {
+				bestMove = i;
+            }
+        }
+    }
+
+    return movePossibles[bestMove];
+}
